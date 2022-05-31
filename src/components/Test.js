@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
+import { get_track_list } from "../model/api";
 
 export default function Test() {
+    const [auth, setAuth] = useState(true);
     const [tracks, setTracks] = useState([]);
 
     useEffect(() => {
-        fetch('/auth/login');
-        // fetch('/api/tracks')
-        // .then((tracks) => {
-        //     setTracks(tracks);
-        // })
-        // .catch((err) => {
-        //     console.error(err);
-        // });
+        get_track_list()
+        .then((data) => {
+            setTracks(data);
+        })
+        .catch((err) => {
+            setAuth(false);
+        });
     }, []);
 
     return (
         <ul>
-            {tracks.map((track, index) => {
-                return <li key={index}>{track}</li>
-            })}
+            {auth ? (tracks.length !== 0 ? tracks.map((track, index) => {
+                return <li key={index}>{track.name}</li>
+            }) : <p>Loading...</p>) : <p>Not authenticated.</p>}
         </ul>
     );
 }
