@@ -1,0 +1,14 @@
+.playlist-list-list {
+    padding: 0;
+    margin: 0 10px;
+    list-style: none;
+}
+
+.playlist-list-list-item {
+    margin: 30px 0;
+}
+
+.playlist-list-list-item-description {
+    padding: 5px;
+    border-bottom: 1px solid #444444;
+}

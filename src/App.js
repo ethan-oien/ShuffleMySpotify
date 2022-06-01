@@ -1,4 +1,4 @@
-import Test from './components/Test';
+import PlaylistList from './components/PlaylistList';
 
 function App() {
 
@@ -7,12 +7,12 @@ function App() {
     }
 
     return (
-        <div>
-            <h1>App</h1>
+        <div className='app'>
+            <h1>Shuffle My Spotify</h1>
             <a href='http://localhost:5000/auth/login'>Login!</a>
             <br />
             <button onClick={refresh}>Refresh!</button>
-            <Test />
+            <PlaylistList />
         </div>
     );
 }

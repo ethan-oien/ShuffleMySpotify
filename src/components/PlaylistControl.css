@@ -1,0 +1,26 @@
+.playlist-control-root {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 10px;
+}
+
+.playlist-control-shuffleButton {
+    margin: 5px 0;
+    padding: 0.7em 1.4em;
+    font-size: larger;
+}
+
+.playlist-control-organize {
+    margin: 10px;
+    margin-bottom: 5px;
+}
+
+.playlist-control-organize-title {
+    font-size: large;
+    margin: 5px 0;
+}
+
+.playlist-control-organize-list {
+    list-style: none;
+    padding: 0 10px;
+}
