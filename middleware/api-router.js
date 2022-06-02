@@ -1,11 +1,9 @@
 const express = require('express');
-const { get_playlist_tracks, add_tracks_to_playlist,
-    set_playlist_name } = require('../services/api-service');
+const { get_current_user_id, get_current_users_playlists } = require('../services/api-service');
 
 const router = express.Router();
 
 const unauthenticated_status = 401;
-const playlist_id = '1CP2M6yS49QQ8MdRL5dyix';
 
 //check access token first and foremost
 router.get('/*', (req, res, next) => {
@@ -20,10 +18,23 @@ router.get('/*', (req, res, next) => {
     }
 });
 
-router.get('/tracks', async (req, res, next) => {
-    get_playlist_tracks(req.access_token, playlist_id)
-    .then((tracks) => {
-        res.json(tracks);
+router.get('/me', async (req, res, next) => {
+    get_current_user_id(req.access_token)
+    .then((data) => {
+        console.log(data);
+        res.json(data);
+    })
+    .catch((err) => {
+        console.log(err);
+
+        res.sendStatus(500);
+    });
+});
+
+router.get('/me/playlists', async (req, res, next) => {
+    get_current_users_playlists(req.access_token)
+    .then((data) => {
+        res.json(data);
     })
     .catch((err) => {
         console.log(err);

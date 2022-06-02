@@ -5,113 +5,13 @@ const spotify_bad_token_status = 401;
 const spotify_bad_oath_request_status = 403;
 const spotify_rate_limit_exceeded_status = 429;
 
-async function get_playlist_tracks(access_token, playlist_id) {
-    let tracks = [];
-
-    const do_iteration = async (url, tries=0) => {
-        const max_tries = process.env.MAX_TRIES;
-
-        if(tries > max_tries) {
-            return null;
-        }
-
-        let response;
-        try {
-            response = await axios.get(url, {
-                headers: {
-                    'Authorization': `Bearer ${access_token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-        } catch(error) {
-            return check_error(error, () => do_iteration(url, tries+1));
-        }
-
-        response.data.items.forEach(element => {
-            tracks.push(element.track);
-        });
-
-        const next = response.data.next;
-        
-        if(next) return do_iteration(next, 0);
-    
-        return tracks;
-    }
-
-    return do_iteration(`${api_base_uri}v1/playlists/${playlist_id}/tracks`);
-}
-
-async function add_tracks_to_playlist(access_token, playlist_id, tracks) {
-    let track_list = Array.from(tracks);
-    const url = `${api_base_uri}v1/playlists/${playlist_id}/tracks`;
-
-    const do_iteration = async (track_sublist, tries=0) => {
-        const max_tries = process.env.MAX_TRIES;
-
-        if(tries > max_tries) {
-            return 1;
-        }
-
-        let track_sublist_mutable = track_sublist;
-        uris = [];
-        for(let i=0;i<spotify_item_limit;i++) {
-            let track = track_sublist_mutable.pop();
-            if(!track) {
-                break;
-            }
-            uris.push('spotify:track:' + track);
-        }
-        
-        try {
-            await axios.post(url, {
-                uris
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${access_token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-        } catch(error) {
-            return check_error(error, () => do_iteration(track_sublist, tries+1));
-        }
-        
-        if(track_sublist_mutable.length == 0) {
-            return 0;
-        } else {
-            return do_iteration(track_sublist_mutable);
+function construct_headers(access_token) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+            'Content-Type': 'application/json'
         }
     }
-
-    return do_iteration(track_list);
-}
-
-async function set_playlist_name(access_token, playlist_id, new_name) {
-    const url = `${api_base_uri}v1/playlists/${playlist_id}`;
-
-    const do_iteration = async (tries=0) => {
-        const max_tries = process.env.MAX_TRIES;
-
-        if(tries > max_tries) {
-            return 1;
-        }
-
-        try {
-            await axios.put(url, {
-                "name": new_name
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${access_token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-        } catch(error) {
-            return check_error(error, () => do_iteration(tries+1));
-        }
-
-        return 0;
-    }
-
-    return do_iteration();
 }
 
 async function check_error(error, callback) {
@@ -153,9 +53,62 @@ async function check_error(error, callback) {
     }
 }
 
+async function get_current_user_id(access_token) {
+    const uri = "/me";
+
+    const do_iteration = async (url, tries=0) => {
+        const max_tries = process.env.MAX_TRIES;
+
+        if(tries > max_tries) {
+            return null;
+        }
+
+        let response;
+        try {
+            response = await axios.get(url, construct_headers(access_token));
+        } catch(error) {
+            return check_error(error, () => do_iteration(url, tries+1));
+        }
+    
+        return response.data.id;
+    }
+
+    return do_iteration(`${api_base_uri}/v1${uri}`);
+}
+
+async function get_current_users_playlists(access_token) {
+    const uri = "/me/playlists";
+    let ret = [];
+
+    const do_iteration = async (url, tries=0) => {
+        const max_tries = process.env.MAX_TRIES;
+
+        if(tries > max_tries) {
+            return null;
+        }
+
+        let response;
+        try {
+            response = await axios.get(url, construct_headers(access_token));
+        } catch(error) {
+            return check_error(error, () => do_iteration(url, tries+1));
+        }
+
+        response.data.items.forEach(element => {
+            ret.push(element);
+        });
+
+        const next = response.data.next;
+        
+        if(next) return do_iteration(next);
+    
+        return ret;
+    }
+
+    return do_iteration(`${api_base_uri}/v1${uri}`);
+}
+
 module.exports = {
-    get_playlist_tracks,
-    add_tracks_to_playlist,
-    set_playlist_name,
-    check_error
+    get_current_user_id,
+    get_current_users_playlists,
 }
