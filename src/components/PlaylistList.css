@@ -8,6 +8,10 @@
     margin: 30px 0;
 }
 
+.playlist-list-list-item:first-child {
+    margin-top: 1em;
+}
+
 .playlist-list-list-item-description {
     padding: 5px;
     border-bottom: 1px solid #444444;

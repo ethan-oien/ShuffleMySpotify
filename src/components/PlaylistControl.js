@@ -50,15 +50,15 @@ export default function PlaylistControl(props) {
                     </button>
                 </div>
                 <div>
-                    <ul className='playlist-control-organize-list'>
-                        {criteria.length !== 0 ? criteria.map((element, index) => 
+                    {criteria.length !== 0 ? <ul className='playlist-control-organize-list'>
+                        {criteria.map((element, index) => 
                             <li key={index}>
                                 <button className="txt-btn" onClick={() => toggle_element(index)}>{element}</button>
                             </li>
-                        ) : "Loading..."}
-                    </ul>
+                        )}
+                    </ul>  : <p>Loading...</p>}
                     <button onClick={() => apply_button()}>Apply</button>
-                    <button>Clear</button>
+                    <button onClick={() => clear()}>Clear</button>
                 </div>
             </div>
         </div>
