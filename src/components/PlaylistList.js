@@ -2,11 +2,13 @@ import './PlaylistList.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import PlaylistControl from "./PlaylistControl";
 import { get_current_users_playlists, get_current_user_id } from '../model/api';
+import CollapseWrapper from './CollapseWrapper';
+import PlaylistControl from "./PlaylistControl";
 import noimage from '../assets/noimage.png'
 
 export default function PlaylistList() {
+    const [opened, setOpened] = useState(null);
     const [altText, setAltText] = useState('Loading...');
     const [playlists, setPlaylists] = useState([]);
 
@@ -37,19 +39,30 @@ export default function PlaylistList() {
         })
     }, [])
 
+    const toggle_collapse = (playlist_id) => {
+        opened === playlist_id ? setOpened(null) : setOpened(playlist_id);
+    }
+
     return (
-        <div>
-            {playlists.length !== 0 ? <ul className='playlist-list-list'>
+        <div className='playlistList-root'>
+            {playlists.length !== 0 ? <ul className='playlistList-list'>
                 {playlists.map((playlist, index) =>
-                    <li className='playlist-list-list-item' key={playlist.id}>
-                        <div className='playlist-list-list-item-description'>
-                            <img src={playlist.images[0].url} style={{ maxHeight: "2em" }} alt='' />
-                            <button className="txt-btn" onClick={() => {console.log("hello")}}>
-                                <span>{playlist.name}</span>
-                                <FontAwesomeIcon icon={faCaretDown} />
+                    <li key={playlist.id} className={`playlistList-list-item
+                    ${playlist.description ? 'has-description' : ''}
+                    ${opened === playlist.id ? 'opened' : ''}`} >
+                        <div className='playlistList-list-item-header'>
+                            <button className="playlistList-list-item-header-button txt-btn" onClick={() => {toggle_collapse(playlist.id)}}>
+                                <FontAwesomeIcon icon={faCaretDown} className='playlistList-list-item-header-button-arrow' />
                             </button>
+                            <img src={playlist.images[0].url} alt='' />
+                            <div className='playlistList-list-item-header-information'>
+                                <span className='playlistList-list-item-header-button-title'>{playlist.name}</span>
+                                <div className='playlistList-list-item-header-button-description'>{/*playlist.description*/}</div>
+                            </div>
                         </div>
-                        <PlaylistControl id={playlist.id} />
+                        <CollapseWrapper collapsed={opened !== playlist.id}>
+                            <PlaylistControl id={playlist.id} />
+                        </CollapseWrapper>
                     </li>
                 )}
             </ul> : <p>{altText}</p>}

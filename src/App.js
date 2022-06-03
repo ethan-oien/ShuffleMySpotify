@@ -1,7 +1,7 @@
 import PlaylistList from './components/PlaylistList';
 import Test from './components/Test';
 
-function App() {
+export default function App() {
 
     const refresh = () => {
         fetch('/auth/refresh');
@@ -18,5 +18,3 @@ function App() {
         </div>
     );
 }
-
-export default App;

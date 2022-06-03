@@ -1,18 +1,69 @@
-.playlist-list-list {
+.playlistList-root {
+    margin: 10px 0;
+}
+
+.playlistList-list {
     padding: 0;
     margin: 0 10px;
     list-style: none;
 }
 
-.playlist-list-list-item {
+.playlistList-list-item {
     margin: 30px 0;
 }
 
-.playlist-list-list-item:first-child {
+.playlistList-list-item:first-child {
     margin-top: 1em;
 }
 
-.playlist-list-list-item-description {
+.playlistList-list-item-header {
     padding: 5px;
     border-bottom: 1px solid #444444;
+    transition: 0.2;
+}
+
+.playlistList-list-item-header-button {
+    margin-right: 10px!important;
+    float: left;
+}
+
+.playlistList-list-item-header-button-arrow {
+    position: relative;
+    top: 0.3em;
+    padding: 5px;
+    transition: transform 0.2s;
+    transform: rotate(-90deg);
+}
+
+.playlistList-list-item-header > img {
+    transition: 0.5s ease;
+    max-height: 2em;
+}
+
+.playlistList-list-item-header-information {
+    transition: 0.5s ease;
+    bottom: 0.5em;
+    margin-left: 0.5em;
+    display: inline-block;
+    position: relative;
+}
+
+.opened .playlistList-list-item-header-button-description {
+    font-size: 0.4em;
+}
+
+.opened .playlistList-list-item-header-button-arrow {
+    transform: rotate(0);
+}
+
+.opened .playlistList-list-item-header > img {
+    max-height: 5em;
+}
+
+.opened .playlistList-list-item-header-information {
+    font-size: 2.5em;
+}
+
+.opened.has-description .playlistList-list-item-header-information {
+    bottom: 1em;
 }

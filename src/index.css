@@ -48,7 +48,7 @@ a, button {
     text-decoration: none;
 }
 
-a:hover, a:focus {
+a:hover, a:focus, button:hover, button:focus {
     color: #ffffff;
 }
 
@@ -63,14 +63,20 @@ a:hover, a:focus {
 }
 
 .btn:hover {
+    transform: scale(1.03);
     background-color: #1fdf64;
 }
 
+.btn:active {
+    transform: scale(1);
+    background-color: #169c46;
+}
+
 .txt-btn {
-    color: inherit;
     background: transparent;
     border: 0;
     padding: 0;
+    margin: 0;
     font-size: 1em;
 }
 

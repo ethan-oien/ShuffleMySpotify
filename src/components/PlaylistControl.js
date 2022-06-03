@@ -38,19 +38,19 @@ export default function PlaylistControl(props) {
     }
 
     return (
-        <div className='playlist-control-root submenu'>
+        <div className='playlistControl-root submenu'>
             <div>
-                <button className='btn playlist-control-shuffleButton' onClick={shuffle_button}>SHUFFLE</button>
+                <button className='btn playlistControl-shuffleButton' onClick={shuffle_button}>SHUFFLE</button>
             </div>
-            <div className='playlist-control-organize'>
-                <div className='playlist-control-organize-title'>
+            <div className='playlistControl-organize'>
+                <div className='playlistControl-organize-title'>
                     <button className='txt-btn'>
                         <span>Organize</span>
                         {/*<FontAwesomeIcon icon={faCaretDown} />*/}
                     </button>
                 </div>
                 <div>
-                    {criteria.length !== 0 ? <ul className='playlist-control-organize-list'>
+                    {criteria.length !== 0 ? <ul className='playlistControl-organize-list'>
                         {criteria.map((element, index) => 
                             <li key={index}>
                                 <button className="txt-btn" onClick={() => toggle_element(index)}>{element}</button>
