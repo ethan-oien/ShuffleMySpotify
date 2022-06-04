@@ -37,7 +37,7 @@ export default function PlaylistList() {
         .catch((err) => {
             setAltText('An error has occurred.');
         })
-    }, [])
+    }, []);
 
     const toggle_collapse = (playlist_id) => {
         opened === playlist_id ? setOpened(null) : setOpened(playlist_id);
