@@ -1,64 +1,25 @@
-const shuffle_methods = [
-    {
-        name: "Track",
-        description: "by track",
-        func: track
-    },
-    {
-        name: "Artist",
-        description: "by artist",
-        func: artist
-    },
-    {
-        name: "Album",
-        description: "by album",
-        func: album
-    }
-]
+const shuffle_methods = require('./shuffle-methods');
 
-function create_collator(locale=null) {
-    let comp;
-    if(locale) {
-        comp = new Intl.Collator(locale);
-    } else {
-        comp = new Intl.Collator();
-    }
-    return comp;
-}
+function custom_compare(collat, method_indexes, cur_index=0) {
+    return (a, b) => {
+        if(cur_index === method_indexes.length) return 0;
+        
+        let index = method_indexes[cur_index];
+        let reverse = 1;
+        if(index < 0) {
+            reverse = -1;
+            index *= -1;
+        }
 
-function track(locale=null) {
-    const comp = create_collator(locale);
+        const ret = shuffle_methods[index].func(collat)(a,b) * reverse;
 
-    return (a,b) => {
-        const new_a = a.name;
-        const new_b = b.name;
+        if(ret === 0) {
+            return custom_compare(collat, method_indexes, cur_index+1)(a,b);
+        }
 
-        return comp.compare(new_a, new_b);
+        return ret;
     }
 }
-
-function artist(locale=null) {
-    const comp = create_collator(locale);
-
-    return (a,b) => {
-        const new_a = a.artists[0].name;
-        const new_b = b.artists[0].name;
-
-        return comp.compare(new_a, new_b);
-    }
-}
-
-function album(locale=null) {
-    const comp = create_collator(locale);
-
-    return (a,b) => {
-        const new_a = a.album.name;
-        const new_b = b.album.name;
-
-        return comp.compare(new_a, new_b);
-    }
-}
-
 
 function get_shuffle_methods() {
     return shuffle_methods.map((method) => {
@@ -69,10 +30,15 @@ function get_shuffle_methods() {
     })
 }
 
-async function organize(tracks, method_index, locale=null) {
+async function organize(tracks, method_indexes, locale=undefined) {
     const ret = [...tracks];
 
-    ret.sort(shuffle_methods[method_index].func(locale));
+    const collat = new Intl.Collator(locale);
+    const compare = custom_compare(collat, method_indexes);
+
+    if(!compare) throw 'No methods passed!';
+
+    ret.sort(compare);
 
     return ret;
 }

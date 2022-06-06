@@ -56,24 +56,22 @@ router.post('/me/playlists/:playlist_id', async (req, res, next) => {
 
     if(!playlist_id) return res.sendStatus('400');
 
-    const playlist_tracks = await get_playlist_items(req.access_token, req.body.playlist_id)
-    .catch((err) => {
-        console.error(err);
-    });
+    try {
+        const playlist_tracks = await get_playlist_items(req.access_token, req.body.playlist_id);
 
-    const sorted_tracks = await organize(playlist_tracks, method_index, locale);
-    const playlist_track_uris = sorted_tracks.map((track) => 'spotify:track:' + track.id);
+        const sorted_tracks = await organize(playlist_tracks, method_index, locale);
+        const playlist_track_uris = sorted_tracks.map((track) => 'spotify:track:' + track.id);
 
-    const playlist_name = 'hello';
-    const new_playlist_id = await create_playlist(access_token, playlist_name)
-    .catch((err) => {
-        console.error(err);
-    });
+        const playlist_name = 'hello';
+        const new_playlist_id = await create_playlist(access_token, playlist_name);
 
-    await add_items_to_playlist(access_token, new_playlist_id, playlist_track_uris)
-    .catch((err) => {
+        await add_items_to_playlist(access_token, new_playlist_id, playlist_track_uris);
+    } catch(err) {
         console.error(err);
-    });
+        return res.sendStatus(500);
+    }
+    
+    res.sendStatus(500);
 });
 
 module.exports = router;
