@@ -2,7 +2,7 @@ import './PlaylistList.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { get_current_users_playlists, get_current_user_id } from '../model/api';
+import { get_current_users_playlists, get_current_user_id, get_shuffle_methods } from '../model/api';
 import CollapseWrapper from './CollapseWrapper';
 import PlaylistControl from "./PlaylistControl";
 import noimage from '../assets/noimage.png'
@@ -11,6 +11,7 @@ export default function PlaylistList() {
     const [opened, setOpened] = useState(null);
     const [altText, setAltText] = useState('Loading...');
     const [playlists, setPlaylists] = useState([]);
+    const [methods, setMethods] = useState([]);
 
     useEffect(() => {
         get_current_users_playlists()
@@ -39,6 +40,16 @@ export default function PlaylistList() {
         })
     }, []);
 
+    useEffect(() => {
+        get_shuffle_methods()
+        .then((response) => {
+            setMethods(response);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }, []);
+
     const toggle_collapse = (playlist_id) => {
         opened === playlist_id ? setOpened(null) : setOpened(playlist_id);
     }
@@ -61,7 +72,7 @@ export default function PlaylistList() {
                             </div>
                         </div>
                         <CollapseWrapper collapsed={opened !== playlist.id}>
-                            <PlaylistControl id={playlist.id} />
+                            <PlaylistControl id={playlist.id} methods={methods} />
                         </CollapseWrapper>
                     </li>
                 )}
