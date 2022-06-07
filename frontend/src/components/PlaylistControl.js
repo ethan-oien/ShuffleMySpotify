@@ -1,28 +1,67 @@
 import './PlaylistControl.css';
+import { useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDownAZ, faArrowDownZA, faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function PlaylistControl(props) {
     const methods = props.methods;
 
-    const order = new Set();
+    const [applying, setApplying] = useState(false);
+    const [order, setOrder] = useState([]);
+    const [reversed, setReversed] = useState([]);
 
     const shuffle_button = () => {
         //make request to shuffle
     }
+
+    const toggle_method = (method) => {
+        if(!applying) {
+            const new_order = [...order];
+            const new_reversed = [...reversed];
     
-    const toggle_element = (element) => {
-        if(order.has(element)) {
-            order.delete(element);
-        } else {
-            order.add(element);
+            const index = new_order.indexOf(method);
+            
+            if(index === -1) {
+                new_reversed[method] = false;
+                new_order.push(method);
+            } else {
+                new_reversed[method] = undefined;
+                new_order.splice(index, 1);
+            }
+    
+            setOrder(new_order);
+            setReversed(new_reversed);
+        }
+    }
+        
+    const toggle_reverse = (method) => {
+        if(!applying) {
+            const new_reversed = [...reversed];
+            
+            new_reversed[method] = !new_reversed[method];
+
+            setReversed(new_reversed);
         }
     }
     
     const apply_button = () => {
-        //make request to organize based on methods
+        if(!applying) {
+            const body = [];
+
+            order.forEach((o) => {
+                body.push({method: o, reversed: reversed[o]});
+            })
+    
+            clear();
+            setApplying(true);
+            //make request to organize based on methods
+            setApplying(false);
+        }
     }
     
     const clear = () => {
-        order.clear();
+        setOrder([]);
+        setReversed([]);
     }
 
     return (
@@ -35,13 +74,29 @@ export default function PlaylistControl(props) {
                 <div>
                     {methods.length !== 0 ? <ul className='playlistControl-organize-list'>
                         {methods.map((element, index) => 
-                            <li key={index}>
-                                <button className="txt-btn" onClick={() => toggle_element(index)}>{element.name}</button>
+                            <li className={`${reversed[index] !== undefined ? 'selected' : ''}
+                            ${reversed[index] ? 'reversed' : ''}`} key={index}
+                            style={{marginLeft: reversed[index] !== undefined ? order.indexOf(index)*7+'px' : 'inherit'}}>
+                                <span className='playlistControl-organize-list-item-index'>{reversed[index] !== undefined ? order.indexOf(index)+1 : '0'}</span>
+                                <button className='txt-btn'
+                                onClick={() => toggle_method(index)}>{element.name}</button>
+                                {reversed[index] !== undefined ? (
+                                    <button className='txt-btn' onClick={() => {toggle_reverse(index)}}>
+                                        <FontAwesomeIcon className='playlistControl-organize-list-item-button-reversedIcon'
+                                        icon={
+                                            reversed[index] ? faArrowDownZA : faArrowDownAZ
+                                        } />
+                                    </button>
+                                ) : null}
                             </li>
                         )}
                     </ul>  : <p>Loading...</p>}
-                    <button onClick={() => apply_button()}>Apply</button>
-                    <button onClick={() => clear()}>Clear</button>
+                    <button className='btn playlistControl-organize-apply' onClick={() => apply_button()}>{
+                        applying ? (
+                            <FontAwesomeIcon icon={faCircleNotch} className='fa-spin'/>
+                        ) : 'Apply'
+                    }</button>
+                    <button className='btn playlistControl-organize-clear' onClick={() => clear()}>Clear</button>
                 </div>
             </div>
         </div>

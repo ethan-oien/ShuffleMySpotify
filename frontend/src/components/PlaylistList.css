@@ -48,10 +48,6 @@
     position: relative;
 }
 
-.opened .playlistList-list-item-header-button-description {
-    font-size: 0.4em;
-}
-
 .opened .playlistList-list-item-header-button-arrow {
     transform: rotate(0);
 }
@@ -66,4 +62,8 @@
 
 .opened.has-description .playlistList-list-item-header-information {
     bottom: 1em;
+}
+
+.opened .playlistList-list-item-header-information-description {
+    font-size: 0.4em;
 }

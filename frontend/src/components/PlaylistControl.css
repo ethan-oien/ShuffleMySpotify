@@ -29,5 +29,49 @@
 
 .playlistControl-organize-list {
     list-style: none;
-    padding: 0 10px;
+    padding: 0;
+}
+
+.playlistControl-organize-list li {
+    transition: background-color 0.2s;
+    list-style: none;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin: 0.4em 0;
+}
+
+.playlistControl-organize-list-item-index {
+    padding-right: 5px;
+    opacity: 0;
+}
+
+.playlistControl-organize-list-item-button-reversedIcon {
+    padding-left: 3px;
+}
+
+.playlistControl-organize-apply {
+    width: 50px;
+    margin-right: 8px;
+}
+
+.playlistControl-organize-clear {
+    width: 50px;
+}
+
+.playlistControl-organize-list li.selected {
+    color: white;
+    background-color: #26733a;
+}
+
+.playlistControl-organize-list li.selected button {
+    color: white;
+}
+
+.playlistControl-organize-list li.selected.reversed {
+    color: white;
+    background-color: #752855;
+}
+
+.playlistControl-organize-list li.selected .playlistControl-organize-list-item-index {
+    opacity: 1;
 }

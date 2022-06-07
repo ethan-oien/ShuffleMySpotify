@@ -67,8 +67,8 @@ export default function PlaylistList() {
                             </button>
                             <img src={playlist.images[0].url} alt='' />
                             <div className='playlistList-list-item-header-information'>
-                                <span className='playlistList-list-item-header-button-title'>{playlist.name}</span>
-                                <div className='playlistList-list-item-header-button-description'>{/*playlist.description*/}</div>
+                                <span className='playlistList-list-item-header-information-title'>{playlist.name}</span>
+                                <div className='playlistList-list-item-header-information-description'>{/*playlist.description*/}</div>
                             </div>
                         </div>
                         <CollapseWrapper collapsed={opened !== playlist.id}>

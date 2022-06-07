@@ -4,14 +4,11 @@ function custom_compare(collat, method_indexes, cur_index=0) {
     return (a, b) => {
         if(cur_index === method_indexes.length) return 0;
         
-        let index = method_indexes[cur_index];
+        let method = method_indexes[cur_index].method;
         let reverse = 1;
-        if(index < 0) {
-            reverse = -1;
-            index *= -1;
-        }
+        if(method_indexes[cur_index].reversed) reverse = -1;
 
-        const ret = shuffle_methods[index].func(collat)(a,b) * reverse;
+        const ret = shuffle_methods[method].func(collat)(a,b) * reverse;
 
         if(ret === 0) {
             return custom_compare(collat, method_indexes, cur_index+1)(a,b);

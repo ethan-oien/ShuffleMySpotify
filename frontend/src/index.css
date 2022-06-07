@@ -48,7 +48,7 @@ a, button {
     text-decoration: none;
 }
 
-a:hover, a:focus, button:hover, button:focus {
+a:hover, button:hover {
     color: #ffffff;
 }
 
@@ -63,11 +63,13 @@ a:hover, a:focus, button:hover, button:focus {
 }
 
 .btn:hover {
+    color: black;
     transform: scale(1.03);
     background-color: #1fdf64;
 }
 
 .btn:active {
+    color: black;
     transform: scale(1);
     background-color: #169c46;
 }
