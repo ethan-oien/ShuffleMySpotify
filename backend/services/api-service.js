@@ -131,6 +131,38 @@ async function get_playlist(access_token, playlist_id) {
     return do_iteration(`${api_base_uri}/v1${uri}`);
 }
 
+async function get_playlist_items(access_token, playlist_id) {
+    const uri = `/playlists/${playlist_id}/tracks`;
+    let ret = [];
+
+    const do_iteration = async (url, tries=0) => {
+        const max_tries = process.env.MAX_TRIES;
+
+        if(tries > max_tries) {
+            return null;
+        }
+
+        let response;
+        try {
+            response = await axios.get(url, construct_headers(access_token));
+        } catch(error) {
+            return check_error(error, () => do_iteration(url, tries+1));
+        }
+
+        response.data.items.forEach(element => {
+            ret.push(element);
+        });
+
+        const next = response.data.next;
+        
+        if(next) return do_iteration(next);
+    
+        return ret;
+    }
+
+    return do_iteration(`${api_base_uri}/v1${uri}`);
+}
+
 async function create_playlist(access_token, playlist_name, description) {
     const user_id = await get_current_user_id(access_token)
     .catch((err) => {
@@ -185,7 +217,6 @@ async function add_items_to_playlist(access_token, playlist_id, uris) {
                 "uris": split,
             }, construct_headers(access_token));
         } catch(error) {
-            console.log(error.response.data.error);
             return check_error(error, () => do_iteration(url, uris, tries+1));
         }
 
@@ -199,6 +230,7 @@ module.exports = {
     get_current_user_id,
     get_current_users_playlists,
     get_playlist,
+    get_playlist_items,
     create_playlist,
     add_items_to_playlist,
 }
