@@ -7,10 +7,7 @@ async function handle_error(error, callback) {
     if(error.response.status === 401) {
         await axios.get(`${auth_endpoint}/refresh`)
         .then(() => {
-            callback();
-        })
-        .catch((err) => {
-            console.error(err);
+            return callback();
         });
     } else {
         console.error(error);
@@ -21,7 +18,7 @@ export async function get_current_user_id()
 {
     const response = await axios.get(`${api_endpoint}/me`)
     .catch((err) => {
-        handle_error(err, get_current_user_id);
+        return handle_error(err, get_current_user_id);
     });
 
     return response.data;
@@ -31,7 +28,7 @@ export async function get_current_users_playlists()
 {
     const response = await axios.get(`${api_endpoint}/me/playlists`)
     .catch((err) => {
-        handle_error(err, get_current_users_playlists);
+        return handle_error(err, get_current_users_playlists);
     });
 
     return response.data;
@@ -41,7 +38,7 @@ export async function get_shuffle_methods()
 {
     const response = await axios.get(`${api_endpoint}/methods`)
     .catch((err) => {
-        handle_error(err, get_shuffle_methods);
+        return handle_error(err, get_shuffle_methods);
     });
 
     return response.data;
@@ -57,6 +54,6 @@ export async function organize_playlist(playlist_id, method_index)
         }
     })
     .catch((err) => {
-        handle_error(err, organize_playlist);
+        return handle_error(err, () => organize_playlist(playlist_id, method_index));
     });
 }
