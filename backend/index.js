@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const body_parser = require('body-parser')
 const cookie_parser = require('cookie-parser');
 const auth = require('./middleware/auth-router');
 const api = require('./middleware/api-router');
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cookie_parser());
+app.use(body_parser.json());
 app.use('/auth', auth);
 app.use('/api', api);
 

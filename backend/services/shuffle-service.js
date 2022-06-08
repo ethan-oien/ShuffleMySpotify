@@ -27,10 +27,11 @@ function get_shuffle_methods() {
     })
 }
 
-async function organize(tracks, method_indexes, locale=undefined) {
+async function organize(tracks, method_indexes, locales=undefined) {
     const ret = [...tracks];
 
-    const collat = new Intl.Collator(locale);
+    collat = new Intl.Collator(locales);
+
     const compare = custom_compare(collat, method_indexes);
 
     if(!compare) throw 'No methods passed!';

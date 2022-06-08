@@ -2,6 +2,7 @@ import './PlaylistControl.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDownAZ, faArrowDownZA, faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { organize_playlist } from '../model/api';
 
 export default function PlaylistControl(props) {
     const methods = props.methods;
@@ -54,8 +55,14 @@ export default function PlaylistControl(props) {
     
             clear();
             setApplying(true);
-            //make request to organize based on methods
-            setApplying(false);
+
+            organize_playlist(props.id, body)
+            .then(() => {
+                setApplying(false);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         }
     }
     
