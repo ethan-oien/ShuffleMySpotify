@@ -1,7 +1,7 @@
 const express = require('express');
 const { get_current_user_id, get_current_users_playlists, get_playlist,
     get_playlist_items, create_playlist, add_items_to_playlist } = require('../services/api-service');
-const { get_shuffle_methods, organize } = require('../services/shuffle-service');
+const { get_shuffle_methods, shuffle, organize } = require('../services/shuffle-service');
 
 const router = express.Router();
 
@@ -73,7 +73,9 @@ router.post('/me/playlists/:playlist_id', async (req, res, next) => {
         const playlist_items = await get_playlist_items(access_token, playlist_id);
         const playlist_tracks = playlist_items.map((item) => item.track);
 
-        const sorted_tracks = await organize(playlist_tracks, method_index, locales_parsed);
+        let sorted_tracks;
+        if(!method_index) sorted_tracks = await shuffle(playlist_tracks);
+        else sorted_tracks = await organize(playlist_tracks, method_index, locales_parsed);
         const playlist_track_uris = sorted_tracks.map((track) => 'spotify:track:' + track.id);
 
         const playlist_name = playlist.name + ' (SMS)';

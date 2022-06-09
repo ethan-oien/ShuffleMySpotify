@@ -41,6 +41,7 @@ async function check_error(error, callback) {
                 return retry(retry_after, callback);
             default:
                 console.error(`An unknown error was found in Spotify API response! (Code: ${error.response.status})`);
+                console.error(error.response.data.error);
                 return retry(retry_after, callback);
                 //throw error;
         }

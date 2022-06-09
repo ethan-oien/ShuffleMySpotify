@@ -6,12 +6,7 @@
 }
 
 .playlistControl-shuffleButton {
-    margin: 5px 0;
-    padding: 0.7em 1.4em;
-    font-size: larger;
-}
-
-.playlistControl-shuffleButton {
+    width: 100px;
     margin: 5px 0;
     padding: 0.7em 1.4em;
     font-size: larger;

@@ -7,16 +7,31 @@ import { organize_playlist } from '../model/api';
 export default function PlaylistControl(props) {
     const methods = props.methods;
 
+    const [shuffling, setShuffling] = useState(false);
     const [applying, setApplying] = useState(false);
+    const [working, setWorking] = useState(false);
     const [order, setOrder] = useState([]);
     const [reversed, setReversed] = useState([]);
 
     const shuffle_button = () => {
-        //make request to shuffle
+        if(!working) {
+            clear();
+            setShuffling(true);
+            setWorking(true);
+
+            organize_playlist(props.id, undefined)
+            .then(() => {
+                setShuffling(false);
+                setWorking(false);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
     }
 
     const toggle_method = (method) => {
-        if(!applying) {
+        if(!working) {
             const new_order = [...order];
             const new_reversed = [...reversed];
     
@@ -36,7 +51,7 @@ export default function PlaylistControl(props) {
     }
         
     const toggle_reverse = (method) => {
-        if(!applying) {
+        if(!working) {
             const new_reversed = [...reversed];
             
             new_reversed[method] = !new_reversed[method];
@@ -46,7 +61,7 @@ export default function PlaylistControl(props) {
     }
     
     const apply_button = () => {
-        if(!applying) {
+        if(!working) {
             const body = [];
 
             order.forEach((o) => {
@@ -55,10 +70,12 @@ export default function PlaylistControl(props) {
     
             clear();
             setApplying(true);
+            setWorking(true);
 
             organize_playlist(props.id, body)
             .then(() => {
                 setApplying(false);
+                setWorking(false);
             })
             .catch((err) => {
                 console.error(err);
@@ -74,7 +91,11 @@ export default function PlaylistControl(props) {
     return (
         <div className='playlistControl-root submenu'>
             <div>
-                <button className='btn playlistControl-shuffleButton' onClick={shuffle_button}>SHUFFLE</button>
+                <button className='btn playlistControl-shuffleButton' onClick={shuffle_button}>
+                    {shuffling ? (
+                        <FontAwesomeIcon icon={faCircleNotch} className='fa-spin'/>
+                    ) : 'SHUFFLE'}
+                </button>
             </div>
             <div className='playlistControl-organize'>
                 <p className='playlistControl-organize-title'>Organize</p>

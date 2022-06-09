@@ -41,7 +41,26 @@ async function organize(tracks, method_indexes, locales=undefined) {
     return ret;
 }
 
+async function shuffle(tracks) {
+    //Fisher–Yates shuffle
+    const ret = [...tracks];
+
+    let m = ret.length, i, tmp;
+    
+    while (m) {
+        i = Math.floor(Math.random() * m);
+        m--;
+    
+        tmp = ret[m];
+        ret[m] = ret[i];
+        ret[i] = tmp;
+    }
+    
+    return ret;
+}
+
 module.exports = {
     get_shuffle_methods,
-    organize
+    organize,
+    shuffle
 }
