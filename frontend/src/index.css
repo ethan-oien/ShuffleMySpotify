@@ -9,8 +9,9 @@ body {
     border-radius: 6px;
     background-color: #222020;
     width: 60%;
+    max-width: 800px;
     margin: 30px auto;
-    padding: calc(1% + 25px) 5%;
+    padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
