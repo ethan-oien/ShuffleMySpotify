@@ -93,7 +93,7 @@ export default function PlaylistControl(props) {
             <div>
                 <button className='btn playlistControl-shuffleButton' onClick={shuffle_button}>
                     {shuffling ? (
-                        <FontAwesomeIcon icon={faCircleNotch} className='fa-spin'/>
+                        <FontAwesomeIcon icon={faCircleNotch} className='fa-spin' alt='Working'/>
                     ) : 'SHUFFLE'}
                 </button>
             </div>
@@ -111,9 +111,8 @@ export default function PlaylistControl(props) {
                                 {reversed[index] !== undefined ? (
                                     <button className='txt-btn' onClick={() => {toggle_reverse(index)}}>
                                         <FontAwesomeIcon className='playlistControl-organize-list-item-button-reversedIcon'
-                                        icon={
-                                            reversed[index] ? faArrowDownZA : faArrowDownAZ
-                                        } />
+                                        icon={reversed[index] ? faArrowDownZA : faArrowDownAZ} 
+                                        title={reversed[index] ? 'Reverse Alphabetically' : 'Alphabetically'}/>
                                     </button>
                                 ) : null}
                             </li>
@@ -121,7 +120,7 @@ export default function PlaylistControl(props) {
                     </ul>  : <p>Loading...</p>}
                     <button className='btn playlistControl-organize-apply' onClick={() => apply_button()}>{
                         applying ? (
-                            <FontAwesomeIcon icon={faCircleNotch} className='fa-spin'/>
+                            <FontAwesomeIcon icon={faCircleNotch} className='fa-spin' alt='Working'/>
                         ) : 'Apply'
                     }</button>
                     <button className='btn playlistControl-organize-clear' onClick={() => clear()}>Clear</button>
