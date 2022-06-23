@@ -65,10 +65,14 @@ export default function PlaylistList() {
                             <button className="playlistList-list-item-header-button txt-btn" onClick={() => {toggle_collapse(playlist.id)}}>
                                 <FontAwesomeIcon icon={faCaretDown} className='playlistList-list-item-header-button-arrow' />
                             </button>
-                            <img src={playlist.images[0].url} alt='' />
+                            <img className='playlistList-list-item-header-img' src={playlist.images[0].url} alt='' />
                             <div className='playlistList-list-item-header-information'>
-                                <span className='playlistList-list-item-header-information-title'>{playlist.name}</span>
-                                <div className='playlistList-list-item-header-information-description'>{playlist.description}</div>
+                                <div className='playlistList-list-item-header-information-title'>
+                                    <span>{playlist.name}</span>
+                                </div>
+                                <div className='playlistList-list-item-header-information-description'>
+                                    <span>{playlist.description}</span>
+                                </div>
                             </div>
                         </div>
                         <CollapseWrapper collapsed={opened !== playlist.id}>

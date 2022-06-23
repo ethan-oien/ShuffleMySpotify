@@ -17,75 +17,79 @@
 }
 
 .playlistList-list-item-header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
     padding: 5px;
     border-bottom: 1px solid #444444;
     transition: 0.2;
 }
 
 .playlistList-list-item-header-button {
+    align-self: flex-start;
     margin-right: 10px!important;
-    float: left;
 }
 
 .playlistList-list-item-header-button-arrow {
     position: relative;
-    top: 0.3em;
+    top: 0.25em;
     padding: 5px;
     transition: transform 0.2s;
     transform: rotate(-90deg);
 }
+.opened .playlistList-list-item-header-button-arrow {
+    transform: rotate(0);
+}
 
-.playlistList-list-item-header > img {
+.playlistList-list-item-header-img {
     transition: 0.5s ease;
     max-height: 2em;
 }
+.opened .playlistList-list-item-header-img {
+    max-height: 5em;
+}
+.has-description .playlistList-list-item-header-img {
+    transition: 0.5s ease 0.2s;
+}
+.opened.has-description .playlistList-list-item-header-img {
+    transition: 0.5s ease;
+}
 
 .playlistList-list-item-header-information {
+    flex-grow: 1;
     transition: 0.5s ease;
-    bottom: 0.5em;
     margin-left: 0.5em;
     display: inline-block;
     position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.opened .playlistList-list-item-header-information {
+    font-size: 2em;
+}
+.has-description .playlistList-list-item-header-information {
+    transition: 0.5s ease 0.2s;
+}
+.opened.has-description .playlistList-list-item-header-information {
+    transition: 0.5s ease;
+}
+
+.playlistList-list-item-header-information-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .playlistList-list-item-header-information-description {
-    margin-left: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0.25em;
     opacity: 0;
     font-size: 0;
     color: white;
     transition: opacity 0.2s ease, font-size 0.5s ease 0.2s;
 }
-
-.opened .playlistList-list-item-header-button-arrow {
-    transform: rotate(0);
-}
-
-.opened .playlistList-list-item-header > img {
-    max-height: 5em;
-}
-
-.opened .playlistList-list-item-header-information {
-    font-size: 2.5em;
-}
-
 .opened .playlistList-list-item-header-information-description {
     opacity: 100%;
     font-size: 16px;
     transition: font-size 0.5s ease, opacity 0.2s ease 0.5s;
-}
-
-.has-description .playlistList-list-item-header > img {
-    transition: 0.5s ease 0.2s;
-}
-
-.has-description .playlistList-list-item-header-information {
-    transition: 0.5s ease 0.2s;
-}
-
-.opened.has-description .playlistList-list-item-header > img {
-    transition: 0.5s ease;
-}
-
-.opened.has-description .playlistList-list-item-header-information {
-    transition: 0.5s ease;
 }
