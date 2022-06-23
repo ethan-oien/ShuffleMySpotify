@@ -21,6 +21,7 @@
     align-items: center;
     flex-direction: row;
     padding: 5px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #444444;
     transition: 0.2;
 }
