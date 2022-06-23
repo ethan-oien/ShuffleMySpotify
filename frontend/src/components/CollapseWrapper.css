@@ -2,3 +2,8 @@
     transition: height 0.5s;
     overflow: hidden;
 }
+
+.collapsed {
+    transition: height 0.5s, visibility 0s linear 0.5s;
+    visibility: hidden;
+}
