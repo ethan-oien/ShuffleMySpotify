@@ -55,7 +55,7 @@
 
 .playlistControl-organize-list li.selected {
     color: white;
-    background-color: #26733a;
+    background-color: rgba(25, 185, 65, 0.5);
 }
 
 .playlistControl-organize-list li.selected button {
@@ -64,7 +64,7 @@
 
 .playlistControl-organize-list li.selected.reversed {
     color: white;
-    background-color: #752855;
+    background-color: rgba(196, 22, 22, 0.5);
 }
 
 .playlistControl-organize-list li.selected .playlistControl-organize-list-item-index {
