@@ -67,20 +67,25 @@ router.get('/refresh', (req, res, next) => {
                 }
             );
 
-            if(refresh_token) {
-                res.cookie('refresh_token', refresh_token,
-                    {
-                        httpOnly: true,
-                        maxAge: refresh_token_max_age_ms
-                    }
-                );
-            }
+            res.cookie('refresh_token', refresh_token,
+                {
+                    httpOnly: true,
+                    maxAge: refresh_token_max_age_ms
+                }
+            );
 
             res.sendStatus(200);
         })
         .catch((err) => {
             console.error(err.data);
-            res.sendStatus(err.status);
+            console.error(err.status);
+
+            if(err.status === 400) {
+                //patchjob solution
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(err.status);
+            }
         });
     } else {
         res.sendStatus(400);
