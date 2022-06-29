@@ -1,5 +1,5 @@
 const axios = require('axios').default;
-const { api_base_uri, spotify_item_limit } = require('../spotify_variables.json');
+const { api_base_uri } = require('../spotify_variables.json');
 
 const spotify_bad_token_status = 401;
 const spotify_bad_oath_request_status = 403;
