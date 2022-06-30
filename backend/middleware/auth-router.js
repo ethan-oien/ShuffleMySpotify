@@ -4,9 +4,11 @@ const { construct_url, load_tokens, refresh_tokens } = require('../services/auth
 const router = express.Router();
 
 router.get('/login', (req, res, next) => {
+    const home_url = process.env.HOME_URL;
+
     construct_url()
     .then((url) => {
-        res.header('Access-Control-Allow-Origin', 'https://localhost:3000');
+        res.header('Access-Control-Allow-Origin', home_url);
         res.redirect(url);
     })
     .catch((err) => {
@@ -16,6 +18,8 @@ router.get('/login', (req, res, next) => {
 });
 
 router.get('/callback', (req, res, next) => {
+    const home_url = process.env.HOME_URL;
+
     const code = req.query['code'];
     const state = req.query['state'];
 
@@ -39,7 +43,7 @@ router.get('/callback', (req, res, next) => {
                 }
             );
 
-            res.redirect('http://localhost:3000/');
+            res.redirect(home_url);
         })
         .catch((err) => {
             console.error(err.data);

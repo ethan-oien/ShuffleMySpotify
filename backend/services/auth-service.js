@@ -58,7 +58,7 @@ async function load_tokens(code, state)
         }
 
         const client_id = process.env.CLIENT_ID;
-        const redirect_uri = process.env.REDIRECT_URI;
+        const redirect_uri = process.env.REDIRECT_URL;
 
         const data = {
             'grant_type': 'authorization_code',
@@ -119,7 +119,7 @@ async function construct_url()
     const show_dialog = null;
 
     const client_id = process.env.CLIENT_ID;
-    const redirect_uri = process.env.REDIRECT_URI;
+    const redirect_uri = process.env.REDIRECT_URL;
 
     const data = {
         'client_id': client_id,
