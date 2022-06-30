@@ -4,6 +4,7 @@ const body_parser = require('body-parser')
 const cookie_parser = require('cookie-parser');
 const auth = require('./middleware/auth-router');
 const api = require('./middleware/api-router');
+const path = require('path');
 
 const app = express();
 
@@ -19,9 +20,7 @@ app.use(body_parser.json());
 app.use('/auth', auth);
 app.use('/api', api);
 
-app.get('/', (req, res) => {
-    res.send(`API listening on port ${port}...`);
-});
+app.use(express.static(path.join(__dirname, './build')));
 
 app.listen(port, () => {
     console.log(`API listening on port ${port}...`);

@@ -1,0 +1,7 @@
+{
+    "authorization_endpoint": "https://accounts.spotify.com/authorize",
+    "token_endpoint": "https://accounts.spotify.com/api/token",
+    "api_base_uri": "https://api.spotify.com",
+    "scopes": "playlist-read-private playlist-modify-private playlist-modify-public",
+    "spotify_item_limit": 100
+}
